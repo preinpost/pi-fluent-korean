@@ -1,6 +1,6 @@
 {
   "name": "pi-fluent-korean",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "pi가 명확한 한국어로 응답하게 하는 서술 지침. 시스템 프롬프트에 지침을 주입하는 확장과, 필요할 때만 부르는 스킬을 함께 제공합니다.",
   "type": "module",
   "keywords": [
