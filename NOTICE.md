@@ -6,7 +6,7 @@
 원본 라이선스 전문은 `LICENSE.upstream` 에 있습니다.
 
 원본은 Claude Code 의 output-style 플러그인입니다. 이 패키지는 같은 지침 본문을
-pi 확장과 pi 스킬로 다시 포장한 것이며, 지침 본문 자체는 수정하지 않았습니다.
+pi 확장과 pi 스킬로 다시 구현한 것이며, 지침 본문 자체는 수정하지 않았습니다.
 YAML frontmatter 만 제거했는데, 그 항목들은 Claude Code 의 output-style 형식에만
 해당하고 pi 에서는 쓰이지 않기 때문입니다.
 

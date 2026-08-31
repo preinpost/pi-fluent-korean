@@ -18,9 +18,15 @@ const GUIDELINE_FILES: Record<Variant, string> = {
 };
 
 const VARIANT_LABELS: Record<Variant, string> = {
-	coding: "coding (코딩 작업용, 서브에이전트 조항 포함)",
-	"not-coding": "not-coding (코드를 직접 변경하지 않는 작업용)",
+	coding: "coding (코딩 작업용이며, 서브에이전트 조항을 포함합니다)",
+	"not-coding": "not-coding (코드를 직접 변경하지 않는 작업에 사용합니다)",
 };
+
+const MENU: { value: "off" | Variant; label: string }[] = [
+	{ value: "off", label: "off: 지침을 적용하지 않습니다" },
+	{ value: "coding", label: `coding: ${VARIANT_LABELS.coding}` },
+	{ value: "not-coding", label: `not-coding: ${VARIANT_LABELS["not-coding"]}` },
+];
 
 const CONFIG_FILE = "fluent-korean.json";
 const DEFAULTS: Config = { enabled: true, variant: "coding", append: "" };
@@ -102,19 +108,21 @@ export default function fluentKoreanExtension(pi: ExtensionAPI) {
 				return;
 			}
 
-			let choice = arg;
+			let choice: string | undefined = arg;
 			if (choice === "") {
-				const picked = await ctx.ui.select("한국어 서술 지침", [
-					"off — 지침을 적용하지 않습니다",
-					`coding — ${VARIANT_LABELS.coding}`,
-					`not-coding — ${VARIANT_LABELS["not-coding"]}`,
-				]);
+				const picked = await ctx.ui.select(
+					"한국어 서술 지침",
+					MENU.map((item) => item.label),
+				);
 				if (picked === undefined) return;
-				choice = picked.split(" ")[0];
+				choice = MENU.find((item) => item.label === picked)?.value;
 			}
 
 			if (choice !== "off" && choice !== "coding" && choice !== "not-coding") {
-				ctx.ui.notify(`알 수 없는 값입니다: ${choice}. off, coding, not-coding 중에서 선택해주세요.`, "warning");
+				ctx.ui.notify(
+					`알 수 없는 값입니다: ${choice}. off, coding, not-coding 중에서 선택해주세요.`,
+					"warning",
+				);
 				return;
 			}
 
@@ -122,7 +130,7 @@ export default function fluentKoreanExtension(pi: ExtensionAPI) {
 				choice === "off" ? { ...config, enabled: false } : { ...config, enabled: true, variant: choice };
 			const path = saveGlobalConfig(config);
 			refreshStatus(ctx);
-			ctx.ui.notify(`${describe()}\n설정을 ${path} 에 저장했습니다. 이 턴부터 적용됩니다.`, "info");
+			ctx.ui.notify(`${describe()}\n설정을 ${path} 에 저장했으며, 다음 턴부터 적용됩니다.`, "info");
 		},
 	});
 }
