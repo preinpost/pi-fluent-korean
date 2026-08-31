@@ -1,0 +1,58 @@
+{
+  "name": "pi-fluent-korean",
+  "version": "0.1.0",
+  "description": "pi가 명확한 한국어로 응답하게 하는 서술 지침. 시스템 프롬프트에 지침을 주입하는 확장과, 필요할 때만 부르는 스킬을 함께 제공합니다.",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "extension",
+    "korean",
+    "한국어",
+    "output-style",
+    "fluent-korean"
+  ],
+  "author": "preinpost",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/preinpost/pi-fluent-korean.git"
+  },
+  "bugs": {
+    "url": "https://github.com/preinpost/pi-fluent-korean/issues"
+  },
+  "homepage": "https://github.com/preinpost/pi-fluent-korean#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "files": [
+    "extensions",
+    "skills",
+    "guidelines",
+    "README.md",
+    "LICENSE",
+    "LICENSE.upstream",
+    "NOTICE.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm pack --dry-run"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.84.0"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.84.0",
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.0"
+  }
+}

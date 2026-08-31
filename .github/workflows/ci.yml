@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+
+      - name: Typecheck extension
+        run: npm run typecheck
+
+      - name: Verify package contents
+        run: npm pack --dry-run
+
+      - name: Verify guideline files are packaged
+        run: |
+          npm pack --dry-run --json \
+            | node -e '
+              const files = JSON.parse(require("node:fs").readFileSync(0, "utf-8"))[0].files.map((f) => f.path);
+              const required = [
+                "extensions/fluent-korean.ts",
+                "guidelines/fluent-korean.md",
+                "guidelines/fluent-korean-not-coding.md",
+                "skills/fluent-korean/SKILL.md",
+              ];
+              const missing = required.filter((f) => !files.includes(f));
+              if (missing.length > 0) {
+                console.error("Missing from tarball:\n" + missing.join("\n"));
+                process.exit(1);
+              }
+              console.log("All required files present.");
+            '
